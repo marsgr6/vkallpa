@@ -106,7 +106,7 @@ else:
                 # resampled_mean = filtered_df[column].resample(frequency_map[resample_frequency]).mean()
                 # resampled_std = filtered_df[column].resample(frequency_map[resample_frequency]).std()
 
-                resampled_std = filtered_df[column].resample(frequency_map[resample_frequency])
+                #resampled_std = filtered_df[column].resample(frequency_map[resample_frequency])
 
                 # Choose aggregation function
                 if aggregation_method == "Mean":
@@ -114,19 +114,32 @@ else:
                         resampled_data = filtered_df[column].resample(frequency_map_prev[resample_frequency]).sum()
                         resampled_std = resampled_data.resample(frequency_map[resample_frequency]).std()
                         resampled_data = resampled_data.resample(frequency_map[resample_frequency]).mean()
+                        summary_df = pd.DataFrame({
+                            "Date": resampled_data.index,
+                            "Value": resampled_data.values,
+                            "Std": resampled_std.values
+                        })
                     else:
                         resampled_data = filtered_df[column].resample(frequency_map[resample_frequency]).sum()
+                        summary_df = pd.DataFrame({
+                            "Date": resampled_data.index,
+                            "Value": resampled_data.values,
+                        })
                 elif aggregation_method == "Sum":
-                    resampled_data = filtered_df[column].resample(frequency_map[resample_frequency]).sum() 
+                    resampled_data = filtered_df[column].resample(frequency_map[resample_frequency]).sum()
+                    summary_df = pd.DataFrame({
+                        "Date": resampled_data.index,
+                        "Value": resampled_data.values,
+                    })
 
 
 
                 # Prepare the data for Plotly
-                summary_df = pd.DataFrame({
-                    "Date": resampled_data.index,
-                    "Value": resampled_data.values,
-                    "Std": resampled_std.values
-                })
+                #summary_df = pd.DataFrame({
+                    #"Date": resampled_data.index,
+                    #"Value": resampled_data.values,
+                    #"Std": resampled_std.values
+                #})
 
                 # Prepare the plot
                 if chart_type == "Line Plot":
