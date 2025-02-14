@@ -8,7 +8,7 @@ from scipy.stats import zscore
 
 
 def plot_energy_profile(df, groupby_cols, title, x_label):
-        profile = df.groupby(groupby_cols)[column].mean().reset_index()
+        profile = df.groupby(groupby_cols)[column].sum().reset_index()
         fig = px.line(profile, x=groupby_cols[-1], y=column, color=groupby_cols[0], title=title, labels={groupby_cols[-1]: x_label, column: "Energy (kWh)"}, markers=True)
         st.plotly_chart(fig)
 
